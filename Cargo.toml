@@ -1,0 +1,10 @@
+[package]
+name = "charlie"
+version = "0.1.0"
+authors = ["Ellen Marie Dash <me@duckie.co>"]
+
+[dependencies]
+env_logger = "~0.4"
+kankyo = "~0.1"
+log = "~0.3"
+serenity = { git = "https://github.com/serenity-rs/serenity", branch = "v0.6.x" }
