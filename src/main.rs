@@ -8,7 +8,7 @@ use std::env;
 
 use serenity::{
     framework::StandardFramework,
-    model::{event::ResumedEvent, gateway::Ready},
+    model::gateway::Ready,
     prelude::*,
     utils::MessageBuilder,
 };
@@ -19,10 +19,6 @@ impl EventHandler for Handler {
     fn ready(&self, _: Context, ready: Ready) {
         info!("Connected as {}", ready.user.name);
     }
-
-    fn resume(&self, _: Context, _: ResumedEvent) {
-        info!("Resumed");
-    }
 }
 
 fn main() {
@@ -31,9 +27,11 @@ fn main() {
     let token = env::var("DISCORD_TOKEN").expect("DISCORD_TOKEN not set");
     let mut client = Client::new(&token, Handler).expect("Err creating client");
 
-    client.with_framework(StandardFramework::new()
+    let framework = StandardFramework::new()
         .configure(|c| c.prefix("!"))
-        .cmd("ping", ping));
+        .cmd("ping", ping);
+
+    client.with_framework(framework);
 
     if let Err(why) = client.start() {
         error!("Client error: {:?}", why);
